@@ -1,4 +1,4 @@
-var config = { rotate: degToRad(20) };
+const config = { rotate: degToRad(20) };
 
 const loadGUI = () => {
   const gui = new dat.GUI();

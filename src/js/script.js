@@ -11,7 +11,7 @@ function main() {
     cubeBufferInfo,
   );
 
-  var fieldOfViewRadians = degToRad(60);
+  const fieldOfViewRadians = degToRad(60);
 
   const cubeUniforms = {
     u_colorMult: [1, 0.5, 0.5, 1],
@@ -19,7 +19,7 @@ function main() {
   };
 
   function computeMatrix(viewProjectionMatrix, translation, yRotation) {
-    var matrix = m4.translate(
+    const matrix = m4.translate(
       viewProjectionMatrix,
       translation[0],
       translation[1],
@@ -29,7 +29,7 @@ function main() {
   }
 
   loadGUI();
-  
+
   function render() {
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 
@@ -37,19 +37,19 @@ function main() {
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
 
-    var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
+    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
     // Compute the camera's matrix using look at.
-    var cameraPosition = [0, 0, 100];
-    var target = [0, 0, 0];
-    var up = [0, 1, 0];
-    var cameraMatrix = m4.lookAt(cameraPosition, target, up);
+    const cameraPosition = [0, 0, 100];
+    const target = [0, 0, 0];
+    const up = [0, 1, 0];
+    const cameraMatrix = m4.lookAt(cameraPosition, target, up);
 
     // Make a view matrix from the camera matrix.
-    var viewMatrix = m4.inverse(cameraMatrix);
+    const viewMatrix = m4.inverse(cameraMatrix);
 
-    var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+    const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
 
     gl.useProgram(meshProgramInfo.program);
 
@@ -70,7 +70,7 @@ function main() {
     twgl.drawBufferInfo(gl, cubeBufferInfo);
 	requestAnimationFrame(render);
   }
-     
+
   requestAnimationFrame(render);
 }
 
