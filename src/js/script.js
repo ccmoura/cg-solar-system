@@ -3,7 +3,7 @@ function main() {
 
   const cubeTranslation = [0, 0, 0];
 
-  const cubeBufferInfo = flattenedPrimitives.createCubeBufferInfo(gl, 20);
+  const cubeBufferInfo = flattenedPrimitives.createSphereBufferInfo(gl, 8, 8, 3000);
 
   const cubeVAO = twgl.createVAOFromBufferInfo(
     gl,
@@ -14,18 +14,19 @@ function main() {
   const fieldOfViewRadians = degToRad(60);
 
   const cubeUniforms = {
-    u_colorMult: [1, 0.5, 0.5, 1],
+    u_colorMult: [0.9921, 0.7226, 0.07421, 1],
     u_matrix: m4.identity(),
   };
 
-  function computeMatrix(viewProjectionMatrix, translation, yRotation) {
-    const matrix = m4.translate(
+  function computeMatrix(viewProjectionMatrix, translation) {
+
+
+    return m4.translate(
       viewProjectionMatrix,
       translation[0],
       translation[1],
       translation[2],
     );
-    return m4.yRotate(matrix, yRotation);
   }
 
   loadGUI();
@@ -36,6 +37,10 @@ function main() {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
+
+    // canvas color
+    gl.clearColor(0.0468, 0.0468, 0.0351, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
@@ -61,7 +66,6 @@ function main() {
     cubeUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
       cubeTranslation,
-      config.rotate,
     );
 
     // Set the uniforms we just computed
