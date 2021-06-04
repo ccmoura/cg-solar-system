@@ -5,6 +5,7 @@ function main() {
 
   const { sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune } = getSolarSystemModels(gl);
 
+  console.log(sun.bufferInfo.attribs.a_texcoord)
   // sun
   const sunBufferInfo = sun.bufferInfo;
   const sunTranslation = sun.translation;
@@ -135,8 +136,6 @@ function main() {
     );
   }
 
-  loadGUI();
-
   function render() {
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 
@@ -152,13 +151,12 @@ function main() {
     const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
     // Compute the camera's matrix using look at.
-    const cameraPosition = [300, 0, 2000];
-    const target = [300, 0, 0];
+    const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]// [0, 0, 2000];
+    const target = [0, 0, 0];
     const up = [0, 1, 0];
     const cameraMatrix = m4.lookAt(cameraPosition, target, up);
 
-    const cameraMatrixTranslated = Transformation.getTranslation(m4, cameraMatrix, [translatex["translate x"], translatey["translate y"], translatez["translate z"]])
-    const cameraMatrixRotated = Transformation.getRotation(m4, cameraMatrixTranslated, [rotatex["rotate x"], rotatey["rotate y"], rotatez["rotate z"]])
+    const cameraMatrixRotated = Transformation.getRotation(m4, cameraMatrix, [rotatex["rotate x"], rotatey["rotate y"], rotatez["rotate z"]])
 
     // Make a view matrix from the camera matrix.
     const viewMatrix = m4.inverse(cameraMatrixRotated);
@@ -308,6 +306,8 @@ function main() {
   }
 
   requestAnimationFrame(render);
+
 }
 
 main();
+loadGUI();

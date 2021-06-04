@@ -1,5 +1,5 @@
-const canvasSizeWidth = [-canvas.width * 20, canvas.width * 20];
-const canvasSizeHeight = [-canvas.height * 20, canvas.height * 20];
+const canvasSizeWidth = [-canvas.width * 7, canvas.width * 7];
+const canvasSizeHeight = [-canvas.height * 7, canvas.height * 7];
 
 const rotatex = { "rotate x": degToRad(0) };
 const rotatey = { "rotate y": degToRad(0) };
@@ -7,7 +7,7 @@ const rotatez = { "rotate z": degToRad(0) };
 
 const translatex = { "translate x": degToRad(0) };
 const translatey = { "translate y": degToRad(0) };
-const translatez = { "translate z": degToRad(0) };
+const translatez = { "translate z": 1000 };
 
 const loadGUI = () => {
   const gui = new dat.GUI();
@@ -15,9 +15,9 @@ const loadGUI = () => {
   const cameraRotations = gui.addFolder("Camera Rotations");
 
   cameraRotations.close();
-  cameraRotations.add(rotatex, "rotate x", canvasSizeWidth[0], canvasSizeWidth[1], 0.1);
-  cameraRotations.add(rotatey, "rotate y", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
-  cameraRotations.add(rotatez, "rotate z", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
+  cameraRotations.add(rotatex, "rotate x", -1, 1, 0.1);
+  cameraRotations.add(rotatey, "rotate y", -1, 1, 0.1);
+  cameraRotations.add(rotatez, "rotate z", -1, 1, 0.1);
 
   const cameraTranslations = gui.addFolder("Camera Translations");
 
