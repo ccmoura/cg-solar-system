@@ -1,13 +1,13 @@
-const canvasSizeWidth = [-canvas.width * 2, canvas.width * 2];
-const canvasSizeHeight = [-canvas.height * 2, canvas.height * 2];
+const canvasSizeWidth = [-canvas.width * 20, canvas.width * 20];
+const canvasSizeHeight = [-canvas.height * 20, canvas.height * 20];
 
-const rotatex = { "rotate x": degToRad(20) };
-const rotatey = { "rotate y": degToRad(20) };
-const rotatez = { "rotate z": degToRad(20) };
+const rotatex = { "rotate x": degToRad(0) };
+const rotatey = { "rotate y": degToRad(0) };
+const rotatez = { "rotate z": degToRad(0) };
 
-const translatex = { "translate x": degToRad(20) };
-const translatey = { "translate y": degToRad(20) };
-const translatez = { "translate z": degToRad(20) };
+const translatex = { "translate x": degToRad(0) };
+const translatey = { "translate y": degToRad(0) };
+const translatez = { "translate z": degToRad(0) };
 
 const loadGUI = () => {
   const gui = new dat.GUI();
