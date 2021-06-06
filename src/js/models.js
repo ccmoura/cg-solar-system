@@ -1,6 +1,18 @@
-function getSolarSystemModels(gl) {
-  const scale = 2;
+const scale = 2;
 
+const transformations = [
+  { translation: [0, 0, 0], rotation: [0, 0, 0] }, // sun
+  { translation: [57 / scale, 0, 0], rotation: [0, 0, 0] }, // mercury
+  { translation: [108.2 / scale, 0, 0], rotation: [0, 0, 0] }, // venus
+  { translation: [149.6 / scale, 0, 0], rotation: [0, 0, 0] }, // earth
+  { translation: [227.9 / scale, 0, 0], rotation: [0, 0, 0] }, // mars
+  { translation: [778.6 / scale, 0, 0], rotation: [0, 0, 0] }, // jupiter
+  { translation: [1433.5 / scale, 0, 0], rotation: [0, 0, 0] }, // saturn
+  { translation: [2872.5 / scale, 0, 0], rotation: [0, 0, 0] }, // uranus
+  { translation: [4495.1 / scale, 0, 0], rotation: [0, 0, 0] }, // neptune
+]
+
+function getSolarSystemModels(gl) {
   const sun = { bufferInfo: flattenedPrimitives.createSphereBufferInfo(gl, 20, 20, 30), color: [0.9921, 0.7226, 0.07421, 1], translation: [0, 0, 0]};
   const mercury = { bufferInfo: flattenedPrimitives.createSphereBufferInfo(gl, 0.03610 * 80, 0.03610 * 80, 30), color: [0.5937, 0.5937, 0.6250, 1], translation: [57 / scale, 0, 0] }; // 277
   const venus = { bufferInfo: flattenedPrimitives.createSphereBufferInfo(gl, 0.08695 * 80, 0.08695 * 80, 30), color: [0.8906, 0.7343, 0.4648, 1], translation: [108.2 / scale, 0, 0] }; // 115

@@ -1,8 +1,6 @@
 function main() {
   const { gl, meshProgramInfo } = initializeWorld();
 
-
-
   const { sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune } = getSolarSystemModels(gl);
 
   console.log(sun.bufferInfo.attribs.a_texcoord)
@@ -125,18 +123,34 @@ function main() {
 
   const fieldOfViewRadians = degToRad(60);
 
-  function computeMatrix(viewProjectionMatrix, translation) {
+  function computeMatrix(viewProjectionMatrix, deltaTime, index) {
 
-
-    return m4.translate(
+    const translatedMatrix = Transformation.getTranslation(
+      m4,
       viewProjectionMatrix,
-      translation[0],
-      translation[1],
-      translation[2],
+      transformations[index].translation,
     );
+
+    if(index !== 0) {
+      console.log(index)
+      console.log(transformations[index])
+      transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
+      return Transformation.getRotation(
+        m4,
+        translatedMatrix, 
+        transformations[index].rotation
+      );
+    }
+    return translatedMatrix;
+    
   }
 
-  function render() {
+  var then = 0;
+  function render(now) {
+    now *= 0.001;
+    var deltaTime = now - then;
+    then = now;
+
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -174,7 +188,8 @@ function main() {
 
     sunUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      sunTranslation,
+      deltaTime,
+      0
     );
 
     // Set the uniforms we just computed
@@ -189,7 +204,8 @@ function main() {
 
     mercuryUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      mercuryTranslation,
+      deltaTime,
+      1
     );
 
     // Set the uniforms we just computed
@@ -204,7 +220,8 @@ function main() {
 
     venusUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      venusTranslation,
+      deltaTime,
+      2
     );
 
     // Set the uniforms we just computed
@@ -219,7 +236,8 @@ function main() {
 
     earthUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      earthTranslation,
+      deltaTime,
+      3
     );
 
     // Set the uniforms we just computed
@@ -234,7 +252,8 @@ function main() {
 
     marsUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      marsTranslation,
+      deltaTime,
+      4
     );
 
     // Set the uniforms we just computed
@@ -249,7 +268,8 @@ function main() {
 
     jupiterUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      jupiterTranslation,
+      deltaTime,
+      5
     );
 
     // Set the uniforms we just computed
@@ -264,7 +284,8 @@ function main() {
 
     saturnUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      saturnTranslation,
+      deltaTime,
+      6
     );
 
     // Set the uniforms we just computed
@@ -279,7 +300,8 @@ function main() {
 
     uranusUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      uranusTranslation,
+      deltaTime,
+      7
     );
 
     // Set the uniforms we just computed
@@ -294,7 +316,8 @@ function main() {
 
     neptuneUniforms.u_matrix = computeMatrix(
       viewProjectionMatrix,
-      neptuneTranslation,
+      deltaTime,
+      8
     );
 
     // Set the uniforms we just computed
