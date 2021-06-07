@@ -123,33 +123,52 @@ function main() {
 
   const fieldOfViewRadians = degToRad(60);
 
-  function computeMatrix(viewProjectionMatrix, deltaTime, index) {
-
+  function rotation(matrix, deltaTime, index) {
     const translatedMatrix = Transformation.getTranslation(
       m4,
-      viewProjectionMatrix,
+      matrix,
       transformations[index].translation,
     );
 
     if(index !== 0) {
-      console.log(index)
-      console.log(transformations[index])
       transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
       return Transformation.getRotation(
         m4,
-        translatedMatrix, 
+        translatedMatrix,
         transformations[index].rotation
       );
     }
     return translatedMatrix;
-    
   }
 
-  var then = 0;
+  function computeMatrix(viewProjectionMatrix, deltaTime, index) {
+    let rotatedMatrix = viewProjectionMatrix;
+    if(index !== 0) {
+      transformations[index].rotation[1] += (deltaTime * speeds[index].translation)/12;
+      rotatedMatrix = Transformation.getRotation(
+        m4,
+        rotatedMatrix,
+        transformations[index].rotation
+      );
+    }
+
+    return Transformation.getTranslation(
+      m4,
+      rotatedMatrix,
+      transformations[index].translation,
+    );
+
+  }
+
+  let then = 0;
   function render(now) {
     now *= 0.001;
-    var deltaTime = now - then;
+    const deltaTime = now - then;
     then = now;
+
+    console.log("aaaaaaaaaaaaaaaa")
+    console.log(`0 ${ transformations[1].translation[0]}`)
+    console.log(`2 ${ transformations[1].translation[2]}`)
 
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 
