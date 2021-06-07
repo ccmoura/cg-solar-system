@@ -130,34 +130,45 @@ function main() {
       transformations[index].translation,
     );
 
-    if(index !== 0) {
-      transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
-      return Transformation.getRotation(
-        m4,
-        translatedMatrix,
-        transformations[index].rotation
-      );
-    }
-    return translatedMatrix;
+    
+    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
+    return Transformation.getRotation(
+      m4,
+      translatedMatrix,
+      transformations[index].rotation
+    );    
+    
   }
 
   function computeMatrix(viewProjectionMatrix, deltaTime, index) {
-    let rotatedMatrix = viewProjectionMatrix;
-    if(index !== 0) {
-      transformations[index].rotation[1] += (deltaTime * speeds[index].translation)/12;
-      rotatedMatrix = Transformation.getRotation(
+
+    if(index === 0) { // if sun
+      return Transformation.getTranslation(
         m4,
-        rotatedMatrix,
-        transformations[index].rotation
+        viewProjectionMatrix,
+        transformations[index].translation,
       );
     }
 
-    return Transformation.getTranslation(
+    transformations[index].translated += (deltaTime * speeds[index].translation)/132;
+    const rotatedMatrix = Transformation.getRotation(
+      m4,
+      viewProjectionMatrix,
+      [0, transformations[index].translated, 0]
+    );
+
+    const translatedMatrix = Transformation.getTranslation(
       m4,
       rotatedMatrix,
       transformations[index].translation,
     );
-
+      
+    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
+    return Transformation.getRotation(
+      m4,
+      translatedMatrix,
+      transformations[index].rotation
+    );
   }
 
   let then = 0;
@@ -165,10 +176,6 @@ function main() {
     now *= 0.001;
     const deltaTime = now - then;
     then = now;
-
-    console.log("aaaaaaaaaaaaaaaa")
-    console.log(`0 ${ transformations[1].translation[0]}`)
-    console.log(`2 ${ transformations[1].translation[2]}`)
 
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 

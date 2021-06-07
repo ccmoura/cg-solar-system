@@ -1,15 +1,15 @@
 const scale = 2;
 
 const transformations = [
-  { translation: [0, 0, 0], rotation: [0, 0, 0] }, // sun
-  { translation: [57 / scale, 0, 0], rotation: [0, 0, 0] }, // mercury
-  { translation: [108.2 / scale, 0, 0], rotation: [0, 0, 0] }, // venus
-  { translation: [149.6 / scale, 0, 0], rotation: [0, 0, 0] }, // earth
-  { translation: [227.9 / scale, 0, 0], rotation: [0, 0, 0] }, // mars
-  { translation: [778.6 / scale, 0, 0], rotation: [0, 0, 0] }, // jupiter
-  { translation: [1433.5 / scale, 0, 0], rotation: [0, 0, 0] }, // saturn
-  { translation: [2872.5 / scale, 0, 0], rotation: [0, 0, 0] }, // uranus
-  { translation: [4495.1 / scale, 0, 0], rotation: [0, 0, 0] }, // neptune
+  { translation: [0, 0, 0], rotation: [0, 0, 0], translated: 0 }, // sun
+  { translation: [57 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // mercury
+  { translation: [108.2 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // venus
+  { translation: [149.6 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // earth
+  { translation: [227.9 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // mars
+  { translation: [778.6 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // jupiter
+  { translation: [1433.5 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // saturn
+  { translation: [2872.5 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // uranus
+  { translation: [4495.1 / scale, 0, 0], rotation: [0, 0, 0], translated: 0 }, // neptune
 ]
 
 function getSolarSystemModels(gl) {
