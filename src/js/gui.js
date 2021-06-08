@@ -7,7 +7,7 @@ const rotatez = { "rotate z": degToRad(0) };
 
 const translatex = { "translate x": degToRad(0) };
 const translatey = { "translate y": degToRad(0) };
-const translatez = { "translate z": 1000 };
+const translatez = { "translate z": 2500 };
 
 const loadGUI = () => {
   const gui = new dat.GUI();
@@ -24,5 +24,5 @@ const loadGUI = () => {
   cameraTranslations.close();
   cameraTranslations.add(translatex, "translate x", canvasSizeWidth[0], canvasSizeWidth[1], 0.1);
   cameraTranslations.add(translatey, "translate y", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
-  cameraTranslations.add(translatez, "translate z", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
+  cameraTranslations.add(translatez, "translate z", canvasSizeHeight[0] * 10, canvasSizeHeight[1] * 10, 0.1);
 };

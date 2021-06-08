@@ -1,7 +1,7 @@
-const multiplier = 0.7;
+const multiplier = 2;
 
 const speeds = [
-  null,
+  { translation: 0, rotation: (1674 / 27 / 3600) * multiplier }, // sun
   { translation: 47.9, rotation: (10.83 / 3600) * multiplier }, // mercury
   { translation: 35, rotation: (6.52 / 3600) * multiplier }, // venus
   { translation: 29.8, rotation: (1674 / 3600) * multiplier }, // earth

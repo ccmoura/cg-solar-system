@@ -6,7 +6,6 @@ function main() {
   console.log(sun.bufferInfo.attribs.a_texcoord)
   // sun
   const sunBufferInfo = sun.bufferInfo;
-  const sunTranslation = sun.translation;
   const sunUniforms = {
     u_colorMult: sun.color,
     u_matrix: m4.identity(),
@@ -19,7 +18,6 @@ function main() {
 
   // mercury
   const mercuryBufferInfo = mercury.bufferInfo;
-  const mercuryTranslation = mercury.translation;
   const mercuryUniforms = {
     u_colorMult: mercury.color,
     u_matrix: m4.identity(),
@@ -32,7 +30,6 @@ function main() {
 
   // venus
   const venusBufferInfo = venus.bufferInfo;
-  const venusTranslation = venus.translation;
   const venusUniforms = {
     u_colorMult: venus.color,
     u_matrix: m4.identity(),
@@ -45,7 +42,6 @@ function main() {
 
   // earth
   const earthBufferInfo = earth.bufferInfo;
-  const earthTranslation = earth.translation;
   const earthUniforms = {
     u_colorMult: earth.color,
     u_matrix: m4.identity(),
@@ -58,7 +54,6 @@ function main() {
 
   // mars
   const marsBufferInfo = mars.bufferInfo;
-  const marsTranslation = mars.translation;
   const marsUniforms = {
     u_colorMult: mars.color,
     u_matrix: m4.identity(),
@@ -71,7 +66,6 @@ function main() {
 
   // jupiter
   const jupiterBufferInfo = jupiter.bufferInfo;
-  const jupiterTranslation = jupiter.translation;
   const jupiterUniforms = {
     u_colorMult: jupiter.color,
     u_matrix: m4.identity(),
@@ -84,7 +78,6 @@ function main() {
 
   // saturn
   const saturnBufferInfo = saturn.bufferInfo;
-  const saturnTranslation = saturn.translation;
   const saturnUniforms = {
     u_colorMult: saturn.color,
     u_matrix: m4.identity(),
@@ -97,7 +90,6 @@ function main() {
 
   // uranus
   const uranusBufferInfo = uranus.bufferInfo;
-  const uranusTranslation = uranus.translation;
   const uranusUniforms = {
     u_colorMult: uranus.color,
     u_matrix: m4.identity(),
@@ -110,7 +102,6 @@ function main() {
 
   // neptune
   const neptuneBufferInfo = neptune.bufferInfo;
-  const neptuneTranslation = neptune.translation;
   const neptuneUniforms = {
     u_colorMult: neptune.color,
     u_matrix: m4.identity(),
@@ -123,34 +114,17 @@ function main() {
 
   const fieldOfViewRadians = degToRad(60);
 
-  function rotation(matrix, deltaTime, index) {
-    const translatedMatrix = Transformation.getTranslation(
-      m4,
-      matrix,
-      transformations[index].translation,
-    );
-
-    
-    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
-    return Transformation.getRotation(
-      m4,
-      translatedMatrix,
-      transformations[index].rotation
-    );    
-    
-  }
-
   function computeMatrix(viewProjectionMatrix, deltaTime, index) {
-
+/*
     if(index === 0) { // if sun
       return Transformation.getTranslation(
         m4,
         viewProjectionMatrix,
         transformations[index].translation,
       );
-    }
+    } */
 
-    transformations[index].translated += (deltaTime * speeds[index].translation)/132;
+    transformations[index].translated += (deltaTime * speeds[index].translation)/200;
     const rotatedMatrix = Transformation.getRotation(
       m4,
       viewProjectionMatrix,
@@ -162,7 +136,7 @@ function main() {
       rotatedMatrix,
       transformations[index].translation,
     );
-      
+
     transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
     return Transformation.getRotation(
       m4,
@@ -188,10 +162,10 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
+    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 30000);
 
     // Compute the camera's matrix using look at.
-    const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]// [0, 0, 2000];
+    const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]
     const target = [0, 0, 0];
     const up = [0, 1, 0];
     const cameraMatrix = m4.lookAt(cameraPosition, target, up);
