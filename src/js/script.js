@@ -3,7 +3,7 @@ function main() {
 
   const { sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune } = getSolarSystemModels(gl);
 
-  console.log(sun.bufferInfo.attribs.a_texcoord)
+  // console.log(sun.bufferInfo.attribs.a_texcoord)
   // sun
   const sunBufferInfo = sun.bufferInfo;
   const sunUniforms = {
