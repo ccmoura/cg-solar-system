@@ -22,5 +22,4 @@ class Transformation {
           matrix
         );
   }
-
 }

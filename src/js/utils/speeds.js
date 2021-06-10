@@ -4,7 +4,7 @@ const translationMultiplier = 1.2;
 const kmhToKms = kmh => kmh / 3600;
 
 const speeds = [
-  { translation: 0, rotation: (1674 / 27) }, // sun
+  { translation: 0, rotation: 1674 / 27 }, // sun
   { translation: 172440, rotation: 10.83 }, // mercury
   { translation: 126000, rotation: 6.52 }, // venus
   { translation: 107280, rotation: 1674 }, // earth

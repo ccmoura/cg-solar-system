@@ -1,5 +1,6 @@
-const canvasSizeWidth = [-canvas.width * 7, canvas.width * 7];
-const canvasSizeHeight = [-canvas.height * 7, canvas.height * 7];
+const multiplier = 70;
+const canvasSizeWidth = [-canvas.width, canvas.width].map(size => size * multiplier);
+const canvasSizeHeight = [-canvas.height, canvas.height].map(size => size * multiplier);;
 
 const rotatex = { "rotate x": degToRad(0) };
 const rotatey = { "rotate y": degToRad(0) };
@@ -24,5 +25,5 @@ const loadGUI = () => {
   cameraTranslations.close();
   cameraTranslations.add(translatex, "translate x", canvasSizeWidth[0], canvasSizeWidth[1], 0.1);
   cameraTranslations.add(translatey, "translate y", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
-  cameraTranslations.add(translatez, "translate z", canvasSizeHeight[0] * 10, canvasSizeHeight[1] * 10, 0.1);
+  cameraTranslations.add(translatez, "translate z", canvasSizeHeight[0], canvasSizeHeight[1], 0.1);
 };
