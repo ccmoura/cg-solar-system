@@ -1,4 +1,4 @@
-const planetScale = 80;
+const planetScale = 80; // 1000
 
 const sizes = [
     10, // sun
@@ -11,3 +11,4 @@ const sizes = [
     0.36496, // uranus
     0.36101 // neptune
 ].map(size => size * planetScale);
+//sizes[0] = 40

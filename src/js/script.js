@@ -25,25 +25,9 @@ function main() {
   const fieldOfViewRadians = degToRad(60);
 
   function computeMatrix(viewProjectionMatrix, deltaTime, index) {
-    transformations[index].translated += (deltaTime * speeds[index].translation)/200;
-    const rotatedMatrix = Transformation.getRotation(
-      m4,
-      viewProjectionMatrix,
-      [0, transformations[index].translated, 0]
-    );
+    const translatedMatrix = Movement.translation(viewProjectionMatrix, deltaTime, index);
 
-    const translatedMatrix = Transformation.getTranslation(
-      m4,
-      rotatedMatrix,
-      transformations[index].translation,
-    );
-
-    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
-    return Transformation.getRotation(
-      m4,
-      translatedMatrix,
-      transformations[index].rotation
-    );
+    return Movement.rotation(translatedMatrix, deltaTime, index);
   }
 
   let then = 0;
@@ -63,7 +47,7 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 30000);
+    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 50000);
 
     // Compute the camera's matrix using look at.
     const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]
