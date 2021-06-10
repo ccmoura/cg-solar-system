@@ -1,174 +1,33 @@
 function main() {
   const { gl, meshProgramInfo } = initializeWorld();
 
-  const { sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune } = getSolarSystemModels(gl);
+  const solarSystemModels = getSolarSystemModels(gl);
+  const models = Object.keys(solarSystemModels);
+  const buffers = [];
+  const uniforms = [];
+  const VAOs = [];
+  // console.log(sun.bufferInfo.attribs.a_texcoord)
 
-  console.log(sun.bufferInfo.attribs.a_texcoord)
-  // sun
-  const sunBufferInfo = sun.bufferInfo;
-  const sunTranslation = sun.translation;
-  const sunUniforms = {
-    u_colorMult: sun.color,
-    u_matrix: m4.identity(),
-  };
-  const sunVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    sunBufferInfo,
-  );
-
-  // mercury
-  const mercuryBufferInfo = mercury.bufferInfo;
-  const mercuryTranslation = mercury.translation;
-  const mercuryUniforms = {
-    u_colorMult: mercury.color,
-    u_matrix: m4.identity(),
-  };
-  const mercuryVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    mercuryBufferInfo,
-  );
-
-  // venus
-  const venusBufferInfo = venus.bufferInfo;
-  const venusTranslation = venus.translation;
-  const venusUniforms = {
-    u_colorMult: venus.color,
-    u_matrix: m4.identity(),
-  };
-  const venusVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    venusBufferInfo,
-  );
-
-  // earth
-  const earthBufferInfo = earth.bufferInfo;
-  const earthTranslation = earth.translation;
-  const earthUniforms = {
-    u_colorMult: earth.color,
-    u_matrix: m4.identity(),
-  };
-  const earthVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    earthBufferInfo,
-  );
-
-  // mars
-  const marsBufferInfo = mars.bufferInfo;
-  const marsTranslation = mars.translation;
-  const marsUniforms = {
-    u_colorMult: mars.color,
-    u_matrix: m4.identity(),
-  };
-  const marsVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    marsBufferInfo,
-  );
-
-  // jupiter
-  const jupiterBufferInfo = jupiter.bufferInfo;
-  const jupiterTranslation = jupiter.translation;
-  const jupiterUniforms = {
-    u_colorMult: jupiter.color,
-    u_matrix: m4.identity(),
-  };
-  const jupiterVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    jupiterBufferInfo,
-  );
-
-  // saturn
-  const saturnBufferInfo = saturn.bufferInfo;
-  const saturnTranslation = saturn.translation;
-  const saturnUniforms = {
-    u_colorMult: saturn.color,
-    u_matrix: m4.identity(),
-  };
-  const saturnVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    saturnBufferInfo,
-  );
-
-  // uranus
-  const uranusBufferInfo = uranus.bufferInfo;
-  const uranusTranslation = uranus.translation;
-  const uranusUniforms = {
-    u_colorMult: uranus.color,
-    u_matrix: m4.identity(),
-  };
-  const uranusVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    uranusBufferInfo,
-  );
-
-  // neptune
-  const neptuneBufferInfo = neptune.bufferInfo;
-  const neptuneTranslation = neptune.translation;
-  const neptuneUniforms = {
-    u_colorMult: neptune.color,
-    u_matrix: m4.identity(),
-  };
-  const neptuneVAO = twgl.createVAOFromBufferInfo(
-    gl,
-    meshProgramInfo,
-    neptuneBufferInfo,
-  );
+  models.forEach(model => {
+    buffers.push(solarSystemModels[model].bufferInfo);
+    uniforms.push({
+      u_colorMult: solarSystemModels[model].color,
+      u_matrix: m4.identity()
+    });
+    VAOs.push(
+      twgl.createVAOFromBufferInfo(
+        gl,
+        meshProgramInfo,
+        solarSystemModels[model].bufferInfo,
+    ));
+  });
 
   const fieldOfViewRadians = degToRad(60);
 
-  function rotation(matrix, deltaTime, index) {
-    const translatedMatrix = Transformation.getTranslation(
-      m4,
-      matrix,
-      transformations[index].translation,
-    );
-
-    
-    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
-    return Transformation.getRotation(
-      m4,
-      translatedMatrix,
-      transformations[index].rotation
-    );    
-    
-  }
-
   function computeMatrix(viewProjectionMatrix, deltaTime, index) {
+    const translatedMatrix = Movement.translation(viewProjectionMatrix, deltaTime, index);
 
-    if(index === 0) { // if sun
-      return Transformation.getTranslation(
-        m4,
-        viewProjectionMatrix,
-        transformations[index].translation,
-      );
-    }
-
-    transformations[index].translated += (deltaTime * speeds[index].translation)/132;
-    const rotatedMatrix = Transformation.getRotation(
-      m4,
-      viewProjectionMatrix,
-      [0, transformations[index].translated, 0]
-    );
-
-    const translatedMatrix = Transformation.getTranslation(
-      m4,
-      rotatedMatrix,
-      transformations[index].translation,
-    );
-      
-    transformations[index].rotation[1] += deltaTime * speeds[index].rotation;
-    return Transformation.getRotation(
-      m4,
-      translatedMatrix,
-      transformations[index].rotation
-    );
+    return Movement.rotation(translatedMatrix, deltaTime, index);
   }
 
   let then = 0;
@@ -184,14 +43,14 @@ function main() {
     gl.enable(gl.CULL_FACE);
 
     // canvas color
-    gl.clearColor(0.0468, 0.0468, 0.0351, 1.0); // dark matter
+    gl.clearColor(...darkMatter);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
+    const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 50000);
 
     // Compute the camera's matrix using look at.
-    const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]// [0, 0, 2000];
+    const cameraPosition = [translatex["translate x"], translatey["translate y"], translatez["translate z"]]
     const target = [0, 0, 0];
     const up = [0, 1, 0];
     const cameraMatrix = m4.lookAt(cameraPosition, target, up);
@@ -204,154 +63,20 @@ function main() {
     const viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
 
 
-
     gl.useProgram(meshProgramInfo.program);
 
-    // ------ Draw the cube --------
+    models.forEach((_, index) => {
+      gl.bindVertexArray(VAOs[index]);
+      uniforms[index].u_matrix = computeMatrix(
+        viewProjectionMatrix,
+        deltaTime,
+        index
+      );
+      twgl.setUniforms(meshProgramInfo, uniforms[index]);
+      twgl.drawBufferInfo(gl, buffers[index]);
+    });
 
-    // Setup all the needed attributes.
-    gl.bindVertexArray(sunVAO);
-
-    sunUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      0
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, sunUniforms);
-
-    twgl.drawBufferInfo(gl, sunBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(mercuryVAO);
-
-    mercuryUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      1
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, mercuryUniforms);
-
-    twgl.drawBufferInfo(gl, mercuryBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(venusVAO);
-
-    venusUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      2
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, venusUniforms);
-
-    twgl.drawBufferInfo(gl, venusBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(earthVAO);
-
-    earthUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      3
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, earthUniforms);
-
-    twgl.drawBufferInfo(gl, earthBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(marsVAO);
-
-    marsUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      4
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, marsUniforms);
-
-    twgl.drawBufferInfo(gl, marsBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(jupiterVAO);
-
-    jupiterUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      5
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, jupiterUniforms);
-
-    twgl.drawBufferInfo(gl, jupiterBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(saturnVAO);
-
-    saturnUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      6
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, saturnUniforms);
-
-    twgl.drawBufferInfo(gl, saturnBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(uranusVAO);
-
-    uranusUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      7
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, uranusUniforms);
-
-    twgl.drawBufferInfo(gl, uranusBufferInfo);
-
-    // ------ Draw the cube --------
-
-    // Setup all the needed attributes.
-    gl.bindVertexArray(neptuneVAO);
-
-    neptuneUniforms.u_matrix = computeMatrix(
-      viewProjectionMatrix,
-      deltaTime,
-      8
-    );
-
-    // Set the uniforms we just computed
-    twgl.setUniforms(meshProgramInfo, neptuneUniforms);
-
-    twgl.drawBufferInfo(gl, neptuneBufferInfo);
-
-	requestAnimationFrame(render);
+	  requestAnimationFrame(render);
   }
 
   requestAnimationFrame(render);

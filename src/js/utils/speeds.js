@@ -1,14 +1,21 @@
-const multiplier = 0.7;
+const rotationMultiplier = 2;
+const translationMultiplier = 1.2;
+
+const kmhToKms = kmh => kmh / 3600;
 
 const speeds = [
-  null,
-  { translation: 47.9, rotation: (10.83 / 3600) * multiplier }, // mercury
-  { translation: 35, rotation: (6.52 / 3600) * multiplier }, // venus
-  { translation: 29.8, rotation: (1674 / 3600) * multiplier }, // earth
-  { translation: 24.1, rotation: (866 / 3600) * multiplier }, // mars
-  { translation: 13.1, rotation: (45583 / 3600) * multiplier }, // jupiter
-  { translation: 9.7, rotation: (36840 / 3600) * multiplier }, // saturn
-  { translation: 6.8, rotation: (14794 / 3600) * multiplier }, // uranus
-  { translation: 5.4, rotation: (9719 / 3600) * multiplier } // neptune
-]
-// km/s
+  { translation: 0, rotation: 1674 / 27 }, // sun
+  { translation: 172440, rotation: 10.83 }, // mercury
+  { translation: 126000, rotation: 6.52 }, // venus
+  { translation: 107280, rotation: 1674 }, // earth
+  { translation: 86760, rotation: 866 }, // mars
+  { translation: 47160, rotation: 45583 }, // jupiter
+  { translation: 34920, rotation: 36840 }, // saturn
+  { translation: 24480, rotation: 14794 }, // uranus
+  { translation: 19440, rotation: 9719 } // neptune
+].map(speed => ({
+  translation: kmhToKms(speed.translation) * translationMultiplier,
+  rotation: kmhToKms(speed.rotation) * rotationMultiplier
+}));
+
+
