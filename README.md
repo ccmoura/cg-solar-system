@@ -29,6 +29,7 @@ cg-solar-system
 ├─ src
 │  ├─ js
 │  │  ├─ gui.js
+│  │  ├─ controls.js    -- arquivo para controlar a animação
 │  │  ├─ models.js
 │  │  ├─ script.js    -- script principal que adiciona e transforma os objetos
 │  │  ├─ Texture.js

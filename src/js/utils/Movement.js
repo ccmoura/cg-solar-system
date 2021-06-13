@@ -9,7 +9,7 @@ class Movement {
     }
 
     static translation(matrix, time, index) {
-        transformations[index].translated += (time * speeds[index].translation) / 200;
+        transformations[index].translated += (time * speeds[index].translation) / (200 /animationSpeed);
         const rotatedMatrix = Transformation.getRotation(
             m4,
             matrix,
