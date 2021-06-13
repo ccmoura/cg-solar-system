@@ -42,11 +42,11 @@ function main() {
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
 
-  //Texture.initBackground(gl);
+  Texture.initBackground(gl);
 
   // canvas color
-  gl.clearColor(...darkMatter);
-  gl.clear(gl.COLOR_BUFFER_BIT);
+  // gl.clearColor(...darkMatter);
+  // gl.clear(gl.COLOR_BUFFER_BIT);
 
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, 1, 50000);
