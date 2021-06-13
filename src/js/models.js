@@ -1,5 +1,3 @@
-const universeScale = 0.06; // 0.5
-
 const transformations = [
   { translation: [0, 0, 0], rotation: [0, 0, 0], translated: 0 }, // sun
   { translation: [57, 0, 0], rotation: [0, 0, 0], translated: 0 }, // mercury
@@ -10,7 +8,7 @@ const transformations = [
   { translation: [1433.5, 0, 0], rotation: [0, 0, 0], translated: 0 }, // saturn
   { translation: [2872.5, 0, 0], rotation: [0, 0, 0], translated: 0 }, // uranus
   { translation: [4495.1, 0, 0], rotation: [0, 0, 0], translated: 0 }, // neptune
-].map(transformation => ({ ...transformation, translation: [transformation.translation[0] / universeScale, 0, 0] }));
+].map(transformation => ({ ...transformation, translation: [transformation.translation[0] / solarSystemScale, 0, 0] }));
 
 function getSolarSystemModels(gl) {
   const sun = { bufferInfo: flattenedPrimitives.createSphereBufferInfo(gl, sizes[0], sizes[0], 80), color: colors[0], translation: transformations[0]};
